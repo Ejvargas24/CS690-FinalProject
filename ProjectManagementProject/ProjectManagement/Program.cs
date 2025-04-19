@@ -11,6 +11,8 @@ class Program
     {
       
         Email myEmail = new Email();
+        Project myProject = new Project();
+
         //emailSaver emailSaver = new emailSaver("emails.txt");
 
         string userSelection;
@@ -30,7 +32,18 @@ class Program
                     myEmail.labelEmail();}
                 else if(result == "2"){
                     myEmail.emailCategories();}
-            //myEmail.labelEmail();
+            }
+
+            else if(userSelection=="2"){
+                myProject.ProjectOptionDisplay();
+                string result = myProject.ProjectOption();
+                if(result == "1"){
+                    myProject.ProjectDisplay();
+                }
+                else if(result == "2"){
+                    myProject.ProjectDeadlineDisplay();
+                }
+                
             }
         }while(userSelection !="4");
         
@@ -99,5 +112,60 @@ class Program
         }
         Console.WriteLine("------------------------------");
     }
-  
+
  }
+
+
+
+ public class Project{
+    string projectName;
+    string projectDeadline;
+    string projectIncome;
+    string ProjectAnswer;
+
+    List<string> DeadlineList = new List<string>();
+    public Project(){
+
+    }
+    
+    public void ProjectOptionDisplay(){
+        Console.WriteLine("Please choose an option:");
+        Console.WriteLine("1. Add a project:");
+        Console.WriteLine("2. View project deadlines");
+        Console.WriteLine("3. View income from projects");
+        Console.WriteLine("4. Exit");
+    }
+
+    public string ProjectOption(){
+        ProjectAnswer = Console.ReadLine();
+        return ProjectAnswer;
+    }
+
+    public void ProjectDisplay(){
+        Console.WriteLine("Please enter the name of the project:");
+        projectName = Console.ReadLine();
+        Console.WriteLine("Please enter the number of days for the deadline");
+        projectDeadline = Console.ReadLine();
+        Console.WriteLine("Please enter the amount income received for project completion");
+        projectIncome = Console.ReadLine();
+        DeadlineList.Add(projectName);
+        DeadlineList.Add(projectDeadline);
+        DeadlineList.Add(projectIncome);
+        //return projectName;
+        //return projectDeadline;
+        //return projectIncome;
+    } 
+
+    public void ProjectDeadlineDisplay(){
+        
+        string[] str = DeadlineList.ToArray();
+        for(int i=0;i<str.Length-1; i++){
+            Console.WriteLine($":{str[i]}");
+        }
+        //foreach(var element in DeadlineList){
+        //    Console.WriteLine(element);
+        }
+    }
+
+
+
