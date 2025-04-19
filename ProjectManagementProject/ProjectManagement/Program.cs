@@ -12,6 +12,7 @@ class Program
       
         Email myEmail = new Email();
         Project myProject = new Project();
+        ToDo myToDo = new ToDo();
 
         //emailSaver emailSaver = new emailSaver("emails.txt");
 
@@ -38,13 +39,23 @@ class Program
                 myProject.ProjectOptionDisplay();
                 string result = myProject.ProjectOption();
                 if(result == "1"){
-                    myProject.ProjectDisplay();
+                    myProject.ProjectDeadLineAdd();
                 }
                 else if(result == "2"){
+                    myProject.ProjectIncomeAdd();
+                }
+                else if(result == "3"){
                     myProject.ProjectDeadlineDisplay();
                 }
-                
+                else if(result == "4"){
+                    myProject.ProjectIncomeDisplay();
+                }
             }
+
+            else if (userSelection=="3"){
+                myToDo.ToDoDisplay();
+            }
+
         }while(userSelection !="4");
         
     }
@@ -63,7 +74,7 @@ class Program
         Console.WriteLine("Please choose an option:");
         Console.WriteLine("1. Add Email");
         Console.WriteLine("2. View Categories");
-        Console.WriteLine("3. Exit");
+        Console.WriteLine("3. Back");
     }
     public string emailOption(){
         emailAnswer = Console.ReadLine();
@@ -123,17 +134,23 @@ class Program
     string projectIncome;
     string ProjectAnswer;
 
-    List<string> DeadlineList = new List<string>();
+    string textString = "";
+
+    //List<string> DeadlineList = new List<string>();
+    Dictionary<string, string> DeadLineDict = new Dictionary<string, string>();
+    Dictionary<string, string> IncomeDict = new Dictionary<string, string>();
+    //List<string> IncomeList = new List<string>();
     public Project(){
 
     }
     
     public void ProjectOptionDisplay(){
         Console.WriteLine("Please choose an option:");
-        Console.WriteLine("1. Add a project:");
-        Console.WriteLine("2. View project deadlines");
-        Console.WriteLine("3. View income from projects");
-        Console.WriteLine("4. Exit");
+        Console.WriteLine("1. Add a project and deadline:");
+        Console.WriteLine("2. Add a project and income:");
+        Console.WriteLine("3. View project deadlines");
+        Console.WriteLine("4. View income from projects");
+        Console.WriteLine("5. Back");
     }
 
     public string ProjectOption(){
@@ -141,31 +158,69 @@ class Program
         return ProjectAnswer;
     }
 
-    public void ProjectDisplay(){
+    public void ProjectDeadLineAdd(){
         Console.WriteLine("Please enter the name of the project:");
         projectName = Console.ReadLine();
         Console.WriteLine("Please enter the number of days for the deadline");
         projectDeadline = Console.ReadLine();
-        Console.WriteLine("Please enter the amount income received for project completion");
-        projectIncome = Console.ReadLine();
-        DeadlineList.Add(projectName);
-        DeadlineList.Add(projectDeadline);
-        DeadlineList.Add(projectIncome);
-        //return projectName;
-        //return projectDeadline;
-        //return projectIncome;
+        DeadLineDict.Add(projectName, projectDeadline);
+        //Code to get the text file to work
+        //using (StreamWriter file = new StreamWriter("Deadline.txt"))
+        //foreach(var element in DeadLineDict){
+        //    file.WriteLine("[{0} {1}]",element.Key, element.Value);
+    
     } 
 
+    public void ProjectIncomeAdd(){
+        Console.WriteLine("Please enter the name of the project:");
+        projectName = Console.ReadLine();
+        Console.WriteLine("Please enter the amount income received for project completion");
+        projectIncome = Console.ReadLine();
+        IncomeDict.Add(projectName, projectIncome);
+    }
+
     public void ProjectDeadlineDisplay(){
-        
-        string[] str = DeadlineList.ToArray();
-        for(int i=0;i<str.Length-1; i++){
-            Console.WriteLine($":{str[i]}");
-        }
-        //foreach(var element in DeadlineList){
-        //    Console.WriteLine(element);
-        }
+        //Code to get the text file to print
+        //string contentsOfTheFile = File.ReadAllText("Deadline.txt");
+        //string[] result = contentsOfTheFile.Split(" ", StringSplitOptions.RemoveEmptyEntries);
+
+        //while((textString = File.ReadLine()) != null){
+        //   Console.WriteLine(textString);
+        foreach(var element in DeadLineDict){
+            Console.WriteLine("----------------------------------------------------------");
+            Console.WriteLine($"Project: {element.Key} || Deadline: {element.Value} days");
+            Console.WriteLine("----------------------------------------------------------");
+            }
+    }
+
+    public void ProjectIncomeDisplay(){
+        foreach(var element in IncomeDict){
+            Console.WriteLine("----------------------------------------------------------");
+            Console.WriteLine($"Project: {element.Key} || Income: {element.Value} dollars");
+            Console.WriteLine("----------------------------------------------------------");
+            }
+
+    }    
+}
+
+public class ToDo{
+
+    public ToDo(){
+
+    }
+
+
+    public void ToDoDisplay(){
+        Console.WriteLine("Please choose an option:");
+        Console.WriteLine("1. Add a task:");
+        Console.WriteLine("2. Remove a task:");
+        Console.WriteLine("3. View list");
+        Console.WriteLine("4. Save list");
+        Console.WriteLine("5. Back");
     }
 
 
 
+
+
+}
