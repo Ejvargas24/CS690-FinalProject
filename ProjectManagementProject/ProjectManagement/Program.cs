@@ -18,7 +18,11 @@ class Program
 
         string userSelection;
         do{
-            Console.WriteLine("***THIS IS FOR THE REMINDERS");
+            Console.WriteLine("*********");
+            Console.WriteLine("Reminders:");
+            myToDo.ToDoView();
+            //Console.WriteLine("\n");
+            Console.WriteLine("*********");
             Console.WriteLine("Please select a feature:");
             Console.WriteLine("1. Email");
             Console.WriteLine("2. Project");
@@ -300,7 +304,7 @@ public class ToDo{
                 Console.WriteLine(element);
             }
         }catch(FileNotFoundException e){
-            Console.WriteLine("The list is currently empty");
+            Console.WriteLine("The To-Do list is currently empty");
         }
         
     }
