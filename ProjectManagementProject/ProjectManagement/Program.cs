@@ -90,7 +90,7 @@ class Program
     public void Display(){
         Console.WriteLine("Please choose an option:");
         Console.WriteLine("1. Add Email");
-        Console.WriteLine("2. View Categories");
+        Console.WriteLine("2. View each email in categories");
         Console.WriteLine("3. Back");
     }
     public string emailOption(){
@@ -107,38 +107,67 @@ class Program
         if (labelAnswer == "1"){
             Console.WriteLine("Add the email here:");
             emailWrite = Console.ReadLine();
-            WebList.Add(emailWrite);
+            using (StreamWriter file = new StreamWriter("WebCat.txt",true)){
+                file.WriteLine(emailWrite);
+            }
         }
         if (labelAnswer == "2"){
             Console.WriteLine("Add the email here:");
             emailWrite = Console.ReadLine();
-            InvoicesList.Add(emailWrite);
+            using (StreamWriter file = new StreamWriter("InvCat.txt",true)){
+            file.WriteLine(emailWrite);
+            }
         }
          if (labelAnswer == "3"){
             Console.WriteLine("Add the email here:");
             emailWrite = Console.ReadLine();
-            RevisionsList.Add(emailWrite);
+            using (StreamWriter file = new StreamWriter("RevCat.txt",true)){
+            file.WriteLine(emailWrite);
+            }
         }
 
     }
 
     public void emailCategories(){
         Console.WriteLine("The emails in each category are:");
+        Console.WriteLine("------------------------------");
         Console.WriteLine("Web Design:");
-        foreach(var element in WebList){
+        try{
+            string webCatEmails = File.ReadAllText("WebCat.txt");
+            string[] result = webCatEmails.Split("\n");
+            Console.WriteLine("------------------------------");
+            foreach(var element in result) {
             Console.WriteLine(element);
+         }
+         Console.WriteLine("------------------------------");
+
+        }catch(FileNotFoundException e){
+            Console.WriteLine("There are no emails in this category");
         }
-        Console.WriteLine("------------------------------");
         Console.WriteLine("Invoices:");
-        foreach(var element in InvoicesList){
+        try{
+            string invCatEmails = File.ReadAllText("InvCat.txt");
+            string[] result = invCatEmails.Split("\n");
+            Console.WriteLine("------------------------------");
+            foreach(var element in result) {
             Console.WriteLine(element);
+         }
+         Console.WriteLine("------------------------------");
+        }catch(FileNotFoundException e){
+            Console.WriteLine("There are no emails in this category");
         }
-        Console.WriteLine("------------------------------");
         Console.WriteLine("Revisions:");
-        foreach(var element in RevisionsList){
+        try{
+            string revCatEmails = File.ReadAllText("RevCat.txt");
+            string[] result = revCatEmails.Split("\n");
+            Console.WriteLine("------------------------------");
+            foreach(var element in result) {
             Console.WriteLine(element);
+         }
+        }catch(FileNotFoundException e){
+            Console.WriteLine("There are no emails in this category");
         }
-        Console.WriteLine("------------------------------");
+        //Console.WriteLine("------------------------------");
     }
 
  }
@@ -194,15 +223,15 @@ class Program
             if(DeadLineTextStr.Count>0){
                 string totalStr = DeadLineTextStr[DeadLineTextStr.Count-1];
                 string[] splitTotal = totalStr.Split(' ');
-                double total = double.Parse(splitTotal[7]);
+                double total = double.Parse(splitTotal[8]);
                 totalIncome = total + double.Parse(projectIncome);
                 DeadLineTextStr.RemoveAt(DeadLineTextStr.Count-1);
             }
             else{
                 totalIncome = double.Parse(projectIncome);
             }
-            DeadLineTextStr.Add(String.Format("Project: {0} || Days until deadline: {1} || Income awaiting: {2} ",projectName, projectDeadline,projectIncome));
-            DeadLineTextStr.Add(String.Format("The total income from the projects is: {0}",totalIncome));
+            DeadLineTextStr.Add(String.Format("Project: {0} || Days until deadline: {1} || Income awaiting: {2} dollars",projectName, projectDeadline,projectIncome));
+            DeadLineTextStr.Add(String.Format("The total income from the projects would be: {0} dollars",totalIncome));
             foreach(var element in DeadLineTextStr){
                 file.WriteLine(element);
             }

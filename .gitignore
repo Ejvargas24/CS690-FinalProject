@@ -6,6 +6,11 @@
 # dotenv files
 .env
 
+RevCat.txt
+InvCat.txt
+WebCat.txt
+Deadline.txt
+
 # User-specific files
 *.rsuser
 *.suo
