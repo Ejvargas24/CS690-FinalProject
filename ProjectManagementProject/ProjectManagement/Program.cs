@@ -1,6 +1,9 @@
 ﻿namespace ProjectManagement;
 using System;
 using System.IO;
+using System.Linq;
+using System.Collections.Generic;
+
 class Program
 {
     string userSelection;
@@ -222,9 +225,14 @@ class Program
         projectDeadline = Console.ReadLine();
         Console.WriteLine("Please enter the amount income received for project completion");
         projectIncome = Console.ReadLine();
+        
+        if (File.Exists("Deadline.txt") == false){
+            using (File.Create("Deadline.txt")); 
+        }
         List<string> DeadLineTextStr = File.ReadLines("Deadline.txt").ToList();
         using (StreamWriter file = new StreamWriter("Deadline.txt")){
             if(DeadLineTextStr.Count>0){
+
                 string totalStr = DeadLineTextStr[DeadLineTextStr.Count-1];
                 string[] splitTotal = totalStr.Split(' ');
                 double total = double.Parse(splitTotal[8]);
@@ -240,6 +248,7 @@ class Program
                 file.WriteLine(element);
             }
         }
+        
         
         
     }
@@ -310,3 +319,4 @@ public class ToDo{
     }
 
 }
+
