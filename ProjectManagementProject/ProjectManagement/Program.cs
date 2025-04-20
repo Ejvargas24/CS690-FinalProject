@@ -25,30 +25,30 @@ class Program
             Console.WriteLine("3. To-Do List");
             Console.WriteLine("4. Exit");
             userSelection = Console.ReadLine();
-        
-            if(userSelection ==" 1"){
+        while(true){
+            if(userSelection =="1"){
                 myEmail.Display();
                 string result = myEmail.emailOption();
                 if(result == "1"){
                     myEmail.labelEmail();}
                 else if(result == "2"){
                     myEmail.emailCategories();}
+                else if(result == "3"){
+                    break;
+                }
             }
 
             else if(userSelection == "2"){
                 myProject.ProjectOptionDisplay();
                 string result = myProject.ProjectOption();
                 if(result == "1"){
-                    myProject.ProjectDeadLineAdd();
+                    myProject.AddProject();
                 }
                 else if(result == "2"){
-                    myProject.ProjectIncomeAdd();
+                    myProject.ProjectDisplay();
                 }
                 else if(result == "3"){
-                    myProject.ProjectDeadlineDisplay();
-                }
-                else if(result == "4"){
-                    myProject.ProjectIncomeDisplay();
+                    break;
                 }
             }
 
@@ -64,8 +64,15 @@ class Program
                 else if(result == "3"){
                     myToDo.ToDoView();
                 }
+                else if(result == "4"){
+                    break;
+                }
             }
-
+            else{
+                break;
+            }
+        }
+            
         }while(userSelection !="4");
         
     }
@@ -139,78 +146,70 @@ class Program
 
 
  public class Project{
-    string projectName;
-    string projectDeadline;
-    string projectIncome;
-    string ProjectAnswer;
 
-    string textString = "";
-
-    //List<string> DeadlineList = new List<string>();
-    Dictionary<string, string> DeadLineDict = new Dictionary<string, string>();
-    Dictionary<string, string> IncomeDict = new Dictionary<string, string>();
-    //List<string> IncomeList = new List<string>();
     public Project(){
 
     }
     
     public void ProjectOptionDisplay(){
         Console.WriteLine("Please choose an option:");
-        Console.WriteLine("1. Add a project and deadline:");
-        Console.WriteLine("2. Add a project and income:");
-        Console.WriteLine("3. View project deadlines");
-        Console.WriteLine("4. View income from projects");
-        Console.WriteLine("5. Back");
+        Console.WriteLine("1. Add a project:");
+        Console.WriteLine("2. View deadlines and income:");
+        Console.WriteLine("3. Back");
     }
 
     public string ProjectOption(){
+        string ProjectAnswer;
         ProjectAnswer = Console.ReadLine();
         return ProjectAnswer;
     }
 
-    public void ProjectDeadLineAdd(){
+    public void ProjectDisplay(){
+        try{
+            List<string> DeadLineTextStr = File.ReadLines("Deadline.txt").ToList();
+            foreach(var element in DeadLineTextStr){
+            Console.WriteLine(element);
+        }
+       
+        }catch(FileNotFoundException e){
+            Console.Write("There are no projects\n");
+        }
+    }
+
+    public void AddProject(){
+        string projectName;
+        string projectDeadline;
+        string projectIncome;
+        double totalIncome=0;
+
         Console.WriteLine("Please enter the name of the project:");
         projectName = Console.ReadLine();
         Console.WriteLine("Please enter the number of days for the deadline");
         projectDeadline = Console.ReadLine();
-        DeadLineDict.Add(projectName, projectDeadline);
-        //Code to get the text file to work
-        //using (StreamWriter file = new StreamWriter("Deadline.txt"))
-        //foreach(var element in DeadLineDict){
-        //    file.WriteLine("[{0} {1}]",element.Key, element.Value);
-    
-    } 
-
-    public void ProjectIncomeAdd(){
-        Console.WriteLine("Please enter the name of the project:");
-        projectName = Console.ReadLine();
         Console.WriteLine("Please enter the amount income received for project completion");
         projectIncome = Console.ReadLine();
-        IncomeDict.Add(projectName, projectIncome);
+        List<string> DeadLineTextStr = File.ReadLines("Deadline.txt").ToList();
+        using (StreamWriter file = new StreamWriter("Deadline.txt")){
+            if(DeadLineTextStr.Count>0){
+                string totalStr = DeadLineTextStr[DeadLineTextStr.Count-1];
+                string[] splitTotal = totalStr.Split(' ');
+                double total = double.Parse(splitTotal[7]);
+                totalIncome = total + double.Parse(projectIncome);
+                DeadLineTextStr.RemoveAt(DeadLineTextStr.Count-1);
+            }
+            else{
+                totalIncome = double.Parse(projectIncome);
+            }
+            DeadLineTextStr.Add(String.Format("Project: {0} || Days until deadline: {1} || Income awaiting: {2} ",projectName, projectDeadline,projectIncome));
+            DeadLineTextStr.Add(String.Format("The total income from the projects is: {0}",totalIncome));
+            foreach(var element in DeadLineTextStr){
+                file.WriteLine(element);
+            }
+        }
+        
+        
     }
 
-    public void ProjectDeadlineDisplay(){
-        //Code to get the text file to print
-        //string contentsOfTheFile = File.ReadAllText("Deadline.txt");
-        //string[] result = contentsOfTheFile.Split(" ", StringSplitOptions.RemoveEmptyEntries);
-
-        //while((textString = File.ReadLine()) != null){
-        //   Console.WriteLine(textString);
-        foreach(var element in DeadLineDict){
-            Console.WriteLine("----------------------------------------------------------");
-            Console.WriteLine($"Project: {element.Key} || Deadline: {element.Value} days");
-            Console.WriteLine("----------------------------------------------------------");
-            }
-    }
-
-    public void ProjectIncomeDisplay(){
-        foreach(var element in IncomeDict){
-            Console.WriteLine("----------------------------------------------------------");
-            Console.WriteLine($"Project: {element.Key} || Income: {element.Value} dollars");
-            Console.WriteLine("----------------------------------------------------------");
-            }
-
-    }    
 }
 
 public class ToDo{
@@ -264,11 +263,16 @@ public class ToDo{
     }
 
     public void ToDoView(){
-        contentsOfList = File.ReadAllText("ToDo.txt");
-        string[] result = contentsOfList.Split(",");
-        foreach(var element in result) {
-            Console.WriteLine(element);
+        try{
+            contentsOfList = File.ReadAllText("ToDo.txt");
+            string[] result = contentsOfList.Split(",");
+            foreach(var element in result) {
+                Console.WriteLine(element);
+            }
+        }catch(FileNotFoundException e){
+            Console.WriteLine("The list is currently empty");
         }
+        
     }
 
 }
