@@ -173,6 +173,7 @@ class Program
        
         }catch(FileNotFoundException e){
             Console.Write("There are no projects\n");
+            using (File.Create("Deadline.txt")); 
         }
     }
 
