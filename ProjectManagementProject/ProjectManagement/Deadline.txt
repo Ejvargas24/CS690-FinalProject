@@ -1,3 +1,0 @@
-Project: Read || Days until deadline: 5 || Income awaiting: 6 dollars
-Project: Move || Days until deadline: 8 || Income awaiting: 9 dollars
-The total income from the projects would be: 15 dollars
