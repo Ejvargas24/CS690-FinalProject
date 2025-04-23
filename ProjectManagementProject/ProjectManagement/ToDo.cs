@@ -47,8 +47,6 @@ public class ToDo{
         listVersion.Remove(taskToRemove);
         File.Delete("ToDo.txt");
         string concatenateRemove = String.Join(",", listVersion);
-        Console.WriteLine("The new list of tasks:");
-        Console.WriteLine(concatenateRemove);
         File.WriteAllText("ToDo.txt",concatenateRemove);
     }
 

@@ -12,10 +12,7 @@ class Program
     static void Main(string[] args)
     {
       
-       
         ConsoleUI myConsoleUI = new ConsoleUI();
-        //emailSaver emailSaver = new emailSaver("emails.txt");
-
         
     }
 }

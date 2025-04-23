@@ -64,12 +64,12 @@ public class Project{
                 totalIncome = double.Parse(projectIncome);
             }
             DeadLineTextStr.Add(String.Format("Project: {0} || Days until deadline: {1} || Income awaiting: {2} dollars",projectName, projectDeadline,projectIncome));
-            DeadLineTextStr.Add(String.Format("The total income from the projects would be: {0} dollars",totalIncome));
-            foreach(var element in DeadLineTextStr){
+            var orderedlist = DeadLineTextStr.OrderBy(x => int.Parse(x.Split(' ')[6])).ToList();
+            orderedlist.Add(String.Format("The total income from the projects would be: {0} dollars",totalIncome));
+            foreach(var element in orderedlist){
                 file.WriteLine(element);
             }
         }
-        
         
         
     }
