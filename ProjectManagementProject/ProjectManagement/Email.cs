@@ -92,7 +92,6 @@ using System.IO;
         }catch(FileNotFoundException e){
             Console.WriteLine("There are no emails in this category");
         }
-        //Console.WriteLine("------------------------------");
     }
 
  }

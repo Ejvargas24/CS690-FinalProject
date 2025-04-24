@@ -15,7 +15,6 @@ public class ConsoleUI{
             Console.WriteLine("*********");
             Console.WriteLine("Reminders:");
             myToDo.ToDoView();
-            //Console.WriteLine("\n");
             Console.WriteLine("*********");
             Console.WriteLine("Please select a feature:");
             Console.WriteLine("1. Email");
